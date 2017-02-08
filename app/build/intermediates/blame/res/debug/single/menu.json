@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/home/liming/android-3D-model-viewer-master/app/build/intermediates/res/merged/debug/menu/menu.xml",
+        "source": "/home/liming/android-3D-model-viewer-master/app/src/main/res/menu/menu.xml"
+    },
+    {
+        "merged": "/home/liming/android-3D-model-viewer-master/app/build/intermediates/res/merged/debug/menu/main.xml",
+        "source": "/home/liming/android-3D-model-viewer-master/app/src/main/res/menu/main.xml"
+    },
+    {
+        "merged": "/home/liming/android-3D-model-viewer-master/app/build/intermediates/res/merged/debug/menu/model.xml",
+        "source": "/home/liming/android-3D-model-viewer-master/app/src/main/res/menu/model.xml"
+    }
+]
