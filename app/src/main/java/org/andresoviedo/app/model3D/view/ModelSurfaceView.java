@@ -3,6 +3,7 @@ package org.andresoviedo.app.model3D.view;
 import org.andresoviedo.app.model3D.controller.SensorController;
 import org.andresoviedo.app.model3D.controller.TouchController;
 
+import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
 
@@ -28,6 +29,9 @@ public class ModelSurfaceView extends GLSurfaceView {
 		// Create an OpenGL ES 2.0 context.
 		setEGLContextClientVersion(2);
 
+		setEGLConfigChooser(8, 8, 8, 8, 16, 0);
+		getHolder().setFormat(PixelFormat.RGBA_8888);
+
 		// This is the actual renderer of the 3D space
 		mRenderer = new ModelRenderer(this);
 		setRenderer(mRenderer);
@@ -46,7 +50,7 @@ public class ModelSurfaceView extends GLSurfaceView {
 		return touchHandler.onTouchEvent(event);
 	}
 
-	public ModelActivity  () {
+	public ModelActivity getModelActivity() {
 		return parent;
 	}
 

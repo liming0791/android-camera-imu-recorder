@@ -44,7 +44,11 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 	private Map<Object3DData, Object3DData> normals = new HashMap<Object3DData, Object3DData>();
 
 	// 3D matrices to project our 3D world
-	private final float[] modelProjectionMatrix = new float[16];
+	float[] modelProjectionMatrix = new float[16];
+	float[] NDCMatrix = new float[16];
+	float[] PerspMatrix = new float[16];
+
+
 	float[] viewMatrix = new float[16];
 	float[] modelMatrix = new float[16];
 	float[] modelViewMatrix = new float[16];
@@ -64,7 +68,7 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 	@Override
 	public void onSurfaceCreated(GL10 unused, EGLConfig config) {
 		// Set the background frame color
-		GLES20.glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		GLES20.glClearColor(0.f, 0.f, 0.f, 0.f);
 
 		// Use culling to remove back faces.
 		// Don't remove back faces so we can see them
@@ -84,10 +88,42 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 		drawer = new Object3DBuilder();
 	}
 
+	// Camera Axis:
+	//   X - Right, Y - Up, Z - Back
+	// Image Origin:
+	//   Bottom Left
+	// Caution: Principal point defined with respect to image origin (0,0) at
+	//          top left of top-left pixel (not center, and in different frame
+	//          of reference to projection function image)
+	void ProjectionMatrixRUB_BottomLeft(float[] P, int w, int h, float fu, float fv,
+										float u0, float v0, float zNear, float zFar )
+	{
+		// http://www.songho.ca/opengl/gl_projectionmatrix.html
+		final float L = +(u0) * zNear / -fu;
+		final float T = +(v0) * zNear / fv;
+		final float R = -(w-u0) * zNear / -fu;
+		final float B = -(h-v0) * zNear / fv;
+
+		for (int i = 0; i < 16; i++ ) {
+			P[i] = 0;
+		}
+
+		P[0*4+0] = 2 * zNear / (R-L);
+		P[1*4+1] = 2 * zNear / (T-B);
+		P[2*4+2] = -(zFar +zNear) / (zFar - zNear);
+		P[2*4+0] = (R+L)/(R-L);
+		P[2*4+1] = (T+B)/(T-B);
+		P[2*4+3] = -1.0f;
+		P[3*4+2] =  -(2*zFar*zNear)/(zFar-zNear);
+
+	}
+
 	@Override
 	public void onSurfaceChanged(GL10 unused, int width, int height) {
 		this.width = width;
 		this.height = height;
+
+		Log.i("ModelRenderer", "Surface width: " + width + " height: " + height);
 
 		// Adjust the viewport based on geometry changes, such as screen rotation
 		GLES20.glViewport(0, 0, width, height);
@@ -99,7 +135,19 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 		// the projection matrix is the 3D virtual space (cube) that we want to project
 		float ratio = (float) width / height;
 		Log.d(TAG, "projection: [" + -ratio + "," + ratio + ",-1,1]-near/far[1,10]");
-		Matrix.frustumM(modelProjectionMatrix, 0, -ratio, ratio, -1, 1, 1f, 10f);
+		//Matrix.frustumM(modelProjectionMatrix, 0, -ratio*2, ratio*2, -1*2, 1*2, 1f, 10f);
+		ProjectionMatrixRUB_BottomLeft(modelProjectionMatrix, 1080, 1920, 1500, 1500,
+				496.44f, 981.52f, 0.1f, 10000);
+//		width = 1080;
+//		height = 1920;
+//		float near = 1;
+//		float far = 10000;
+//		Matrix.orthoM(NDCMatrix, 0, 0, width, height, 0, near, far);
+//		PerspMatrix[0] = 1500;	PerspMatrix[1] = 0;  	PerspMatrix[2] = -496.44f;  PerspMatrix[3] = 0;
+//		PerspMatrix[4] = 0;		PerspMatrix[5] = 1500;  PerspMatrix[6] = -948.48f;  PerspMatrix[7] = 0;
+//		PerspMatrix[8] = 0;		PerspMatrix[9] = 0;  	PerspMatrix[10] = near+far; PerspMatrix[11] = near*far;
+//		PerspMatrix[12] = 0;	PerspMatrix[13] = 0; 	PerspMatrix[14] = -1; 		PerspMatrix[15] = 0;
+//		Matrix.multiplyMM(modelProjectionMatrix, 0, NDCMatrix, 0, PerspMatrix, 0);
 
 		// Calculate the projection and view transformation
 		Matrix.multiplyMM(mvpMatrix, 0, modelProjectionMatrix, 0, modelViewMatrix, 0);

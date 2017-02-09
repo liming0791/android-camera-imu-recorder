@@ -7,16 +7,24 @@ import org.andresoviedo.app.model3D.services.SceneLoader;
 import org.andresoviedo.app.util.Utils;
 import org.andresoviedo.dddmodel.R;
 
+import org.andresoviedo.app.camera.CameraPreview;
+import org.andresoviedo.app.camera.CameraManager;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.graphics.PixelFormat;
 import android.opengl.GLSurfaceView;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+
 
 /**
  * This activity represents the container for our 3D viewer.
@@ -33,6 +41,9 @@ public class ModelActivity extends Activity {
 	private String paramFilename;
 
 	private GLSurfaceView gLView;
+
+	private CameraPreview cameraView;
+	private CameraManager cameraManager;
 
 	private SceneLoader scene;
 
@@ -54,10 +65,21 @@ public class ModelActivity extends Activity {
 
 		handler = new Handler(getMainLooper());
 
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+		cameraManager = new CameraManager(preferences);
+
+		// Create a CamerafaceView and set it
+		cameraView = new CameraPreview(this, cameraManager);
+		addContentView(cameraView, new ViewGroup.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
 		// Create a GLSurfaceView instance and set it
 		// as the ContentView for this Activity.
 		gLView = new ModelSurfaceView(this);
-		setContentView(gLView);
+		addContentView(gLView, new ViewGroup.LayoutParams(
+				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+		gLView.setZOrderMediaOverlay(true);
+
 
 		// Create our 3D sceneario
 		if (paramFilename == null && paramAssetFilename == null) {
@@ -78,9 +100,15 @@ public class ModelActivity extends Activity {
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+
+	@Override
 	protected void onStop() {
-		super.onStop();
 		((ModelSurfaceView)gLView).onStop();
+		cameraManager.stopCamera();
+		super.onStop();
 	}
 
 	@Override

@@ -44,6 +44,8 @@ public class SensorController implements QuaternionEventListener {
 
     @Override
     public void onQuaternionEvent(float[] q) {
-        this.renderer.getCamera().rotateCamera(q[0], q[1], q[2], q[3]);
+        if (this.renderer.getCamera()!=null) {
+            this.renderer.getCamera().rotateCamera(q[0], q[1], q[2], q[3]);
+        }
     }
 }

@@ -5,14 +5,16 @@
     android:versionName="1.2.0" >
 
     <uses-sdk
-        android:minSdkVersion="8"
+        android:minSdkVersion="15"
         android:targetSdkVersion="19" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
+    <uses-feature android:name="android.hardware.camera" />
 
     <application
         android:name="com.android.tools.fd.runtime.BootstrapApplication"

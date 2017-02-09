@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:2:1-55:12
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:2:1-57:12
 	package
 		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:3:5-40
 		INJECTED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml
@@ -26,74 +26,82 @@ MERGED from [android-3D-model-viewer-master:slam_mahonyahrs:unspecified] /home/l
 		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:8:9-34
 		INJECTED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml
 		INJECTED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml
-uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:11:5-80
+uses-permission#android.permission.CAMERA
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:11:5-64
 	android:name
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:11:22-77
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:11:22-62
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:12:5-80
+	android:name
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:12:22-77
 uses-feature#0x00020000
-ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:13:5-15:35
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:14:5-16:35
 	android:glEsVersion
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:14:9-41
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:15:9-41
 	android:required
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:15:9-32
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:16:9-32
+uses-feature#android.hardware.camera
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:17:5-59
+	android:name
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:17:19-57
 application
-ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:17:5-53:19
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:19:5-55:19
 MERGED from [android-3D-model-viewer-master:slam_mahonyahrs:unspecified] /home/liming/android-3D-model-viewer-master/app/build/intermediates/exploded-aar/android-3D-model-viewer-master/slam_mahonyahrs/unspecified/AndroidManifest.xml:11:5-15:19
 	android:label
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:20:9-41
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:22:9-41
 	android:supportsRtl
 		ADDED from [android-3D-model-viewer-master:slam_mahonyahrs:unspecified] /home/liming/android-3D-model-viewer-master/app/build/intermediates/exploded-aar/android-3D-model-viewer-master/slam_mahonyahrs/unspecified/AndroidManifest.xml:14:9-35
 	android:allowBackup
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:18:9-35
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:20:9-35
 	android:icon
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:19:9-45
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:21:9-45
 	android:theme
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:21:9-40
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:23:9-40
 activity#org.andresoviedo.app.model3D.MainActivity
-ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:22:9-30:20
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:24:9-32:20
 	android:label
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:24:13-45
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:26:13-45
 	android:name
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:23:13-69
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:25:13-69
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:25:13-29:29
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:27:13-31:29
 action#android.intent.action.MAIN
-ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:26:17-69
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:28:17-69
 	android:name
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:26:25-66
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:28:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:28:17-77
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:30:17-77
 	android:name
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:28:27-74
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:30:27-74
 activity#org.andresoviedo.app.model3D.view.MenuActivity
-ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:31:9-35:20
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:33:9-37:20
 	android:label
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:33:13-56
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:35:13-56
 	android:parentActivityName
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:34:13-83
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:36:13-83
 	android:name
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:32:13-74
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:34:13-74
 activity#org.andresoviedo.app.model3D.view.DemoActivity
-ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:36:9-40:20
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:38:9-42:20
 	android:label
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:38:13-56
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:40:13-56
 	android:parentActivityName
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:39:13-83
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:41:13-83
 	android:name
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:37:13-74
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:39:13-74
 activity#org.andresoviedo.app.util.view.TextActivity
-ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:41:9-45:20
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:43:9-47:20
 	android:label
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:43:13-56
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:45:13-56
 	android:parentActivityName
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:44:13-83
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:46:13-83
 	android:name
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:42:13-71
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:44:13-71
 activity#org.andresoviedo.app.model3D.view.ModelActivity
-ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:46:9-52:20
+ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:48:9-54:20
 	android:label
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:48:13-57
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:50:13-57
 	android:parentActivityName
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:49:13-83
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:51:13-83
 	android:name
-		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:47:13-75
+		ADDED from /home/liming/android-3D-model-viewer-master/app/src/main/AndroidManifest.xml:49:13-75

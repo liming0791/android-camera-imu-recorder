@@ -18,6 +18,8 @@ struct timeval tend;
 
 bool isFirstUpdate = true;
 
+int count = 0;
+
 //init PTAM
 JNIEXPORT void JNICALL
 Java_com_citrus_slam_MahonyAHRS_QuaternionSensor_nativeReset( JNIEnv* env, jobject thiz)
@@ -52,7 +54,11 @@ Java_com_citrus_slam_MahonyAHRS_QuaternionSensor_nativeUpdateIMU( JNIEnv* env, j
     env->ReleaseFloatArrayElements(imuval, pimuval, 0);
     env->ReleaseFloatArrayElements(q, pq, 0);
 
-    __android_log_print(ANDROID_LOG_INFO, "JNIMsg", "JNI nativeUpdateIMU called, imufreq: %f", imufreq);
+    count++;
+    if (count==500) {
+        __android_log_print(ANDROID_LOG_INFO, "JNIMsg", "JNI nativeUpdateIMU called, imufreq: %f", imufreq);
+        count=0;
+    }
 }
 
 }

@@ -26,10 +26,16 @@ public class QuaternionSensor implements SensorEventListener {
     private float[] val = new float[6];
     private float[] q = new float[4];
 
+    private int count = 0;
+
     private void updateOrentation() {
         nativeUpdateIMU(val, q);
-        Log.d(TAG,  "val: " + val[0] + " " + val[1] + " " + val[2]);
-        Log.d(TAG, "q: " + q[0] + " " + q[1] + " " + q[2] + " " + q[3]);
+        count++;
+        if (count == 500) {
+            Log.d(TAG, "val: " + val[0] + " " + val[1] + " " + val[2]);
+            Log.d(TAG, "q: " + q[0] + " " + q[1] + " " + q[2] + " " + q[3]);
+            count = 0;
+        }
     }
 
     public QuaternionSensor(SensorManager sensorManager) {

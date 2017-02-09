@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "org.andresoviedo.dddmodel"
-        minSdkVersion 8
+        minSdkVersion 15
         targetSdkVersion 19
     }
 
