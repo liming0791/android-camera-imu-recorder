@@ -48,7 +48,7 @@ public class SceneLoader {
 	/**
 	 * Whether to draw using lights
 	 */
-	private boolean drawLighting = true;
+	private boolean drawLighting = false;
 	/**
 	 * Default draw mode when loading models from files
 	 */

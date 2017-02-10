@@ -13,6 +13,7 @@ import android.os.SystemClock;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -52,6 +53,7 @@ public class TouchController {
 	boolean gestureChanged = false;
 	private boolean moving = false;
 	private boolean simpleTouch = false;
+	private boolean rotationTouch = false;
 	private long lastActionTime;
 	private int touchDelay = -2;
 	private int touchStatus = -1;
@@ -65,10 +67,26 @@ public class TouchController {
 	float[] rotationVector = new float[4];
 	private float previousRotationSquare;
 
+	private ScaleGestureDetector mScaleDetector;
+
 	public TouchController(ModelSurfaceView view, ModelRenderer renderer) {
 		super();
 		this.view = view;
 		this.mRenderer = renderer;
+		mScaleDetector = new ScaleGestureDetector(view.getContext(), new ScaleListener());
+	}
+
+	private class ScaleListener
+			extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+		@Override
+		public boolean onScale(ScaleGestureDetector detector) {
+			mRenderer.getCamera().Tobj /= detector.getScaleFactor();
+
+			// Don't let the object get too small or too large.
+			mRenderer.getCamera().Tobj = Math.max(2.f, Math.min(mRenderer.getCamera().Tobj, 100.0f));
+
+			return true;
+		}
 	}
 
 	public synchronized boolean onTouchEvent(MotionEvent motionEvent) {
@@ -76,7 +94,11 @@ public class TouchController {
 		// and other input controls. In this case, you are only
 		// interested in events where the touch position changed.
 
+		mScaleDetector.onTouchEvent(motionEvent);
+
 		switch (motionEvent.getActionMasked()) {
+
+			// press up
 			case MotionEvent.ACTION_UP:
 			case MotionEvent.ACTION_CANCEL:
 			case MotionEvent.ACTION_POINTER_UP:
@@ -87,13 +109,13 @@ public class TouchController {
 				if (lastActionTime > SystemClock.uptimeMillis() - 250) {
 					simpleTouch = true;
 				} else {
-					gestureChanged = true;
-					touchDelay = 0;
-					lastActionTime = SystemClock.uptimeMillis();
-					simpleTouch = false;
+					rotationTouch = false;
 				}
+				rotationTouch = false;
 				moving = false;
 				break;
+
+			// press down
 			case MotionEvent.ACTION_DOWN:
 			case MotionEvent.ACTION_POINTER_DOWN:
 			case MotionEvent.ACTION_HOVER_ENTER:
@@ -102,11 +124,15 @@ public class TouchController {
 				touchDelay = 0;
 				lastActionTime = SystemClock.uptimeMillis();
 				simpleTouch = false;
+				rotationTouch = false;
 				break;
+
+			// move
 			case MotionEvent.ACTION_MOVE:
 				Log.d(TAG, "ACTION_MOVE...");
 				moving = true;
 				simpleTouch = false;
+				rotationTouch = true;
 				touchDelay++;
 				break;
 			default:
@@ -116,73 +142,21 @@ public class TouchController {
 
 		pointerCount = motionEvent.getPointerCount();
 
-		if (pointerCount == 1) {			// 1 finger
+		if (pointerCount == 1) {							// finger 1
+
+			previousX1 = x1;
+			previousY1 = y1;
+
 			x1 = motionEvent.getX();
 			y1 = motionEvent.getY();
-			if (gestureChanged) {
-				Log.d("Touch", "x:" + x1 + ",y:" + y1);
-				previousX1 = x1;
-				previousY1 = y1;
-			}
+
+
 			dx1 = x1 - previousX1;
 			dy1 = y1 - previousY1;
-		} else if (pointerCount == 2) {		// 2 fingers
-			x1 = motionEvent.getX(0);
-			y1 = motionEvent.getY(0);
-			x2 = motionEvent.getX(1);
-			y2 = motionEvent.getY(1);
-			vector[0] = x2 - x1;
-			vector[1] = y2 - y1;
-			vector[2] = 0;
-			vector[3] = 1;
-			float len = Matrix.length(vector[0], vector[1], vector[2]);
-			vector[0] /= len;
-			vector[1] /= len;
-
-			Log.d("Touch", "x1:" + x1 + ",y1:" + y1 + ",x2:" + x2 + ",y2:" + y2);
-			if (gestureChanged) {
-				previousX1 = x1;
-				previousY1 = y1;
-				previousX2 = x2;
-				previousY2 = y2;
-				System.arraycopy(vector, 0, previousVector, 0, vector.length);
-			}
-			dx1 = x1 - previousX1;
-			dy1 = y1 - previousY1;
-			dx2 = x2 - previousX2;
-			dy2 = y2 - previousY2;
-
-			rotationVector[0] = (previousVector[1] * vector[2]) - (previousVector[2] * vector[1]);
-			rotationVector[1] = (previousVector[2] * vector[0]) - (previousVector[0] * vector[2]);
-			rotationVector[2] = (previousVector[0] * vector[1]) - (previousVector[1] * vector[0]);
-			len = Matrix.length(rotationVector[0], rotationVector[1], rotationVector[2]);
-			rotationVector[0] /= len;
-			rotationVector[1] /= len;
-			rotationVector[2] /= len;
-
-			previousLength = (float) Math
-					.sqrt(Math.pow(previousX2 - previousX1, 2) + Math.pow(previousY2 - previousY1, 2));
-			length = (float) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-
-			currentPress1 = motionEvent.getPressure(0);
-			currentPress2 = motionEvent.getPressure(1);
-			rotation = 0;
-			rotation = TouchScreen.getRotation360(motionEvent);
-			currentSquare = TouchScreen.getSquare(motionEvent);
-			if (currentSquare == 1 && previousRotationSquare == 4) {
-				rotation = 0;
-			} else if (currentSquare == 4 && previousRotationSquare == 1) {
-				rotation = 360;
-			}
-
-			// gesture detection
-			isOneFixedAndOneMoving = ((dx1 + dy1) == 0) != (((dx2 + dy2) == 0));
-			fingersAreClosing = !isOneFixedAndOneMoving && (Math.abs(dx1 + dx2) < 10 && Math.abs(dy1 + dy2) < 10);
-			isRotating = !isOneFixedAndOneMoving && (dx1 != 0 && dy1 != 0 && dx2 != 0 && dy2 != 0)
-					&& rotationVector[2] != 0;
 		}
 
 		if (pointerCount == 1 && simpleTouch) {
+			Log.d("TouchController", "SimpleTouch");
 			// calculate the world coordinates where the user is clicking (near plane and far plane)
 			float[] hit1 = unproject(x1, y1, 0);
 			float[] hit2 = unproject(x1, y1, 1);
@@ -190,116 +164,67 @@ public class TouchController {
 			selectObjectImpl(hit1, hit2);
 
 			// test for object rotation
-			mRenderer.getCamera().setObjectRotation();
-		}
+			mRenderer.getCamera().setObjectPosition();
+		} else if (pointerCount == 1 && rotationTouch && touchDelay >= 2) {
+			if (Math.abs(x1 - previousX1) > 5 || Math.abs(y1-previousY1) >5 ) {
+				Log.d("TouchController", "RotationTouch");
+				float[] rotVec = new float[4];
+				float width = this.view.getWidth();
+				float height = this.view.getHeight();
 
-		if (touchDelay > 1) {
-			// INFO: Procesar gesto
-			if (pointerCount == 1 && currentPress1 > 4.0f) {
-			} else if (pointerCount == 1) {
-				touchStatus = TOUCH_STATUS_MOVING_WORLD;
-				Log.i("Touch", "Moving World '" + dx1 + "','" + dy1 + "'...");
-				mRenderer.getCamera().translateCamera(dx1 * 10 / mRenderer.getWidth(),
-						dy1 * 10 / mRenderer.getHeight());
-			} else if (pointerCount == 2) {
-				if (fingersAreClosing) {
-					touchStatus = TOUCH_STATUS_ZOOMING_CAMERA;
-					float zoomFactor = (length - previousLength) / ((mRenderer.getWidth() + mRenderer.getHeight()) / 2)
-							* 10;
-					Log.i("Camera", "Zooming '" + zoomFactor + "'...");
-					mRenderer.getCamera().MoveCameraZ(zoomFactor);
-				}
-				if (isRotating) {
-					touchStatus = TOUCH_STATUS_ROTATING_CAMERA;
-					Log.i("Camera", "Rotating camera '" + Math.signum(rotationVector[2]) + "'...");
-					mRenderer.getCamera().Rotate((float) (Math.signum(rotationVector[2]) / Math.PI) / 4);
-				}
+				Log.d("TouchController", "prevX: " + previousX1 + " prevY: " + previousY1
+						+ " X: " + x1 + " Y: " + y1);
+				getRotVecTrackBall(rotVec, width, height,
+						previousX1 - width/2, height/2 - previousY1, x1 - width/2, height/2 - y1);
+
+				mRenderer.getCamera().setObjectRotation(rotVec);
 			}
-
-			// INFO: Realizamos la acci�n
-			switch (touchStatus) {
-			// case TOUCH_STATUS_ROTATING_OBJECT:
-			// // reverse direction of rotation above the mid-line
-			// if (y > getHeight() / 2) {
-			// // Log.d(TAG, "Reversing dx");
-			// dx = dx * -1;
-			// }
-			//
-			// // reverse direction of rotation to left of the mid-line
-			// if (x < getWidth() / 2) {
-			// // Log.d(TAG, "Reversing dy");
-			// dy = dy * -1;
-			// }
-			// Log.w("Object", "Rotating '" + dx + "','" + dy + "'...");
-			//
-			// if (wzSquare > wzTriangle) {
-			// mRenderer.getmSquare().setRotationZ(mRenderer.getmSquare().getRotationZ() + ((dx + dy) *
-			// TOUCH_SCALE_FACTOR));
-			// } else if (wzTriangle > wzSquare) {
-			// mRenderer.getmTriangle().setRotationZ(mRenderer.getmTriangle().getRotationZ() + ((dx + dy) *
-			// TOUCH_SCALE_FACTOR));
-			// }
-			//
-			// break;
-			//
-			// case TOUCH_STATUS_MOVING_OBJECT:
-			// // TODO: guess front object
-			// boolean sqHit = wzSquare > wzTriangle;
-			// boolean triHit = wzTriangle > wzSquare;
-			// Log.w("Object", "Moving '" + sqHit + "','" + triHit + "'...");
-			//
-			// if (sqHit) {
-			// mRenderer.getmSquare().translateX((dx * mRenderer.getRatio() * 2 / mRenderer.getWidth()) *
-			// TOUCH_MOVE_FACTOR);
-			// mRenderer.getmSquare().translateY((-dy * 1 / mRenderer.getHeight()) * TOUCH_MOVE_FACTOR);
-			// }
-			// if (triHit) {
-			// mRenderer.getmTriangle().translateX((dx * mRenderer.getRatio() * 2 / mRenderer.getWidth()) *
-			// TOUCH_MOVE_FACTOR);
-			// mRenderer.getmTriangle().translateY((-dy * 1 / mRenderer.getHeight()) * TOUCH_MOVE_FACTOR);
-			// }
-			// break;
-			//
-			// case TOUCH_STATUS_ROTATING_OBJECT2:
-			// Log.w("Object", "Rotating '" + wzSquare + "','" + wzTriangle + "'...");
-			// // INFO: We are moving 2 fingers in different directions
-			// // Rotate Camera
-			// // TODO: Rotationfactor deber�a ser proporcional a la z?
-			// if (wzSquare > wzTriangle) {
-			// mRenderer.getmSquare().setRotationZ(mRenderer.getmSquare().getRotationZ() + (actualRotation *
-			// TOUCH_ROTATION_FACTOR));
-			// } else if (wzTriangle > wzSquare) {
-			// mRenderer.getmTriangle().setRotationZ(mRenderer.getmTriangle().getRotationZ() + (actualRotation *
-			// TOUCH_ROTATION_FACTOR));
-			// }
-			// // mRenderer.setAngle(mRenderer.getAngle() + actualRotation
-			// // * TOUCH_ROTATION_FACTOR);
-			//
-			// // mRenderer.getCamera().Rotate(rotation *
-			// // CAMERA_ROTATION_FACTOR,
-			// // 0);
-			//
-			// break;
-			}
-		}
-
-		previousX1 = x1;
-		previousY1 = y1;
-		previousX2 = x2;
-		previousY2 = y2;
-
-		previousRotationSquare = currentSquare;
-
-		System.arraycopy(vector, 0, previousVector, 0, vector.length);
-
-		if (gestureChanged && touchDelay > 1) {
-			gestureChanged = false;
-			Log.v(TAG, "Fin");
 		}
 
 		view.requestRender();
 
 		return true;
+
+	}
+
+	private void getRotVecTrackBall(float[] rotVec, float width, float height,
+									float x1, float y1, float x2, float y2 ) {
+
+
+
+		float r = height/2;
+		float z1, z2;
+
+		if (x1*x1+y1*y1 <= r*r/2) {
+			z1 = (float) Math.sqrt(r*r - x1*x1 - y1*y1);
+		} else {
+			z1 = (float) (r*r/2/Math.sqrt(x1*x1+y1*y1));
+		}
+
+		if (x2*x2+y2*y2 <= r*r/2) {
+			z2 = (float) Math.sqrt(r*r - x2*x2 - y2*y2);
+		} else {
+			z2 = (float) (r*r/2/Math.sqrt(x2*x2+y2*y2));
+		}
+
+		// map
+		float[] TR = new float[16];
+		Matrix.transposeM(TR, 0, mRenderer.getCamera().objRotationMatrix, 0);
+		Matrix.multiplyMV(rotVec, 0, TR, 0, new float[]{x1, y1, z1, 1}, 0);
+		x1 = rotVec[0]; y1 = rotVec[1]; z1 = rotVec[2];
+		Matrix.multiplyMV(rotVec, 0, TR, 0, new float[]{x2, y2, z2, 1}, 0);
+		x2 = rotVec[0]; y2 = rotVec[1]; z2 = rotVec[2];
+
+		float len1 = (float) Math.sqrt(x1*x1+y1*y1+z1*z1);
+		float len2 = (float) Math.sqrt(x2*x2+y2*y2+z2*z2);
+
+		rotVec[0] = (float) Math.acos((x1*x2+y1*y2+z1*z2)/len1/len2);
+		rotVec[1] = y1*z2 - z1*y2;
+		rotVec[2] = z1*x2 - x1*z2;
+		rotVec[3] = x1*y2 - y1*x2;
+
+		Log.d("TouchController", "R: " + rotVec[0] + " x: " + rotVec[1] + " y: " + rotVec[2] +
+				" z: " + rotVec[3]);
 
 	}
 

@@ -138,16 +138,6 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 		//Matrix.frustumM(modelProjectionMatrix, 0, -ratio*2, ratio*2, -1*2, 1*2, 1f, 10f);
 		ProjectionMatrixRUB_BottomLeft(modelProjectionMatrix, 1080, 1920, 1500, 1500,
 				496.44f, 981.52f, 0.1f, 10000);
-//		width = 1080;
-//		height = 1920;
-//		float near = 1;
-//		float far = 10000;
-//		Matrix.orthoM(NDCMatrix, 0, 0, width, height, 0, near, far);
-//		PerspMatrix[0] = 1500;	PerspMatrix[1] = 0;  	PerspMatrix[2] = -496.44f;  PerspMatrix[3] = 0;
-//		PerspMatrix[4] = 0;		PerspMatrix[5] = 1500;  PerspMatrix[6] = -948.48f;  PerspMatrix[7] = 0;
-//		PerspMatrix[8] = 0;		PerspMatrix[9] = 0;  	PerspMatrix[10] = near+far; PerspMatrix[11] = near*far;
-//		PerspMatrix[12] = 0;	PerspMatrix[13] = 0; 	PerspMatrix[14] = -1; 		PerspMatrix[15] = 0;
-//		Matrix.multiplyMM(modelProjectionMatrix, 0, NDCMatrix, 0, PerspMatrix, 0);
 
 		// Calculate the projection and view transformation
 		Matrix.multiplyMM(mvpMatrix, 0, modelProjectionMatrix, 0, modelViewMatrix, 0);
@@ -171,12 +161,19 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 			Matrix.rotateM(modelMatrix, 0, (float) (-camera.radians * 180 / 3.1415926),
 					camera.Xaxis, camera.Yaxis, camera.Zaxis);
 
-			// rotation for model
+			// position for model
 			Matrix.rotateM(modelMatrix, 0, (float) (camera.objRadians * 180 / 3.1415926),
 					camera.Xobj, camera.Yobj, camera.Zobj);
-			Matrix.translateM(modelMatrix, 0, 0, 0, -6);
 
-			Matrix.multiplyMM(modelViewMatrix, 0, viewMatrix, 0, modelMatrix, 0);
+			// translate for model
+			Matrix.translateM(modelMatrix, 0, 0, 0, -camera.Tobj);
+
+			// rotation for model
+			//Matrix.rotateM(modelMatrix, 0, (float) (camera.Robj * 180 / 3.1415926), camera.XRobj, camera.YRobj, camera.ZRobj);
+			float[] newModelMatrix = new float[16];
+			Matrix.multiplyMM(newModelMatrix, 0, modelMatrix, 0, camera.objRotationMatrix, 0);
+
+			Matrix.multiplyMM(modelViewMatrix, 0, viewMatrix, 0, newModelMatrix, 0);
 			Matrix.multiplyMM(mvpMatrix, 0, modelProjectionMatrix, 0, modelViewMatrix, 0);
 			camera.setChanged(false);
 		}
@@ -187,38 +184,38 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 			return;
 		}
 
-		float[] lightPosInEyeSpace = null;
+		float[] lightPosInEyeSpace = new float[]{5, 5, 5, 1};
 		if (scene.isDrawLighting()) {
-			float[] lightPos = scene.getLightPos();
-			lightPosInEyeSpace = new float[4];
-
-			// Do a complete rotation every 10 seconds.
-			long time = SystemClock.uptimeMillis() % 10000L;
-			float angleInDegrees = (360.0f / 10000.0f) * ((int) time);
-
-			Object3DData lightPoint = Object3DBuilder.buildPoint(lightPos);
-			lightPoint.setRotation(new float[] { 0, angleInDegrees, 0 });
-
-			// calculate light matrix
-			float[] mMatrixLight = new float[16];
-			// Calculate position of the light. Rotate and then push into the distance.
-			Matrix.setIdentityM(mMatrixLight, 0);
-			// Matrix.translateM(mMatrixLight, 0, lightPos[0], lightPos[1], lightPos[2]);
-			Matrix.rotateM(mMatrixLight, 0, angleInDegrees, 0.0f, 1.0f, 0.0f);
-			// Matrix.translateM(mMatrixLight, 0, 0.0f, 0.0f, 2.0f);
-			float[] mLightPosInWorldSpace = new float[4];
-			Matrix.multiplyMV(mLightPosInWorldSpace, 0, mMatrixLight, 0, lightPos, 0);
-
-			Matrix.multiplyMV(lightPosInEyeSpace, 0, modelViewMatrix, 0, mLightPosInWorldSpace, 0);
-			float[] mvMatrixLight = new float[16];
-			Matrix.multiplyMM(mvMatrixLight, 0, modelViewMatrix, 0, mMatrixLight, 0);
-			float[] mvpMatrixLight = new float[16];
-			Matrix.multiplyMM(mvpMatrixLight, 0, modelProjectionMatrix, 0, mvMatrixLight, 0);
-
-			drawer.getPointDrawer().draw(lightPoint, modelProjectionMatrix, modelViewMatrix, -1, lightPosInEyeSpace);
-			// // Draw a point to indicate the light.
-			// GLES20.glUseProgram(mPointProgramHandle);
-			// drawLight(mvpMatrixLight, lightPos);
+//			float[] lightPos = scene.getLightPos();
+//			lightPosInEyeSpace = new float[4]{};
+//
+//			// Do a complete rotation every 10 seconds.
+//			long time = SystemClock.uptimeMillis() % 10000L;
+//			float angleInDegrees = (360.0f / 10000.0f) * ((int) time);
+//
+//			Object3DData lightPoint = Object3DBuilder.buildPoint(lightPos);
+//			lightPoint.setRotation(new float[] { 0, angleInDegrees, 0 });
+//
+//			// calculate light matrix
+//			float[] mMatrixLight = new float[16];
+//			// Calculate position of the light. Rotate and then push into the distance.
+//			Matrix.setIdentityM(mMatrixLight, 0);
+//			// Matrix.translateM(mMatrixLight, 0, lightPos[0], lightPos[1], lightPos[2]);
+//			Matrix.rotateM(mMatrixLight, 0, angleInDegrees, 0.0f, 1.0f, 0.0f);
+//			// Matrix.translateM(mMatrixLight, 0, 0.0f, 0.0f, 2.0f);
+//			float[] mLightPosInWorldSpace = new float[4];
+//			Matrix.multiplyMV(mLightPosInWorldSpace, 0, mMatrixLight, 0, lightPos, 0);
+//
+//			Matrix.multiplyMV(lightPosInEyeSpace, 0, modelViewMatrix, 0, mLightPosInWorldSpace, 0);
+//			float[] mvMatrixLight = new float[16];
+//			Matrix.multiplyMM(mvMatrixLight, 0, modelViewMatrix, 0, mMatrixLight, 0);
+//			float[] mvpMatrixLight = new float[16];
+//			Matrix.multiplyMM(mvpMatrixLight, 0, modelProjectionMatrix, 0, mvMatrixLight, 0);
+//
+//			drawer.getPointDrawer().draw(lightPoint, modelProjectionMatrix, modelViewMatrix, -1, lightPosInEyeSpace);
+//			// // Draw a point to indicate the light.
+//			// GLES20.glUseProgram(mPointProgramHandle);
+//			// drawLight(mvpMatrixLight, lightPos);
 		}
 
 		for (Object3DData objData : scene.getObjects()) {

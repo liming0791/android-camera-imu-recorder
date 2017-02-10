@@ -36,6 +36,11 @@ public class Camera {
 	public float xUp, yUp, zUp; // Up direction.
 	public float radians, Xaxis, Yaxis, Zaxis;
 	public float objRadians = 0, Xobj = 0, Yobj = 0, Zobj = 0;
+	public float Tobj = 6;
+	public float Robj = 0;
+	public float XRobj = 0, YRobj = 0, ZRobj = 1;
+
+	public float[] objRotationMatrix = new float[16];
 
 	float xStrafe = 0, yStrafe = 0, zStrafe = 0; // Strafe direction.
 	float currentRotationAngle; // Keeps us from going too far up or down.
@@ -63,6 +68,7 @@ public class Camera {
 		this.xUp = xUp;
 		this.yUp = yUp;
 		this.zUp = zUp;
+		Matrix.setIdentityM(objRotationMatrix, 0);
 	}
 
 	private void normalize() {
@@ -458,7 +464,16 @@ public class Camera {
 
 	}
 
-	public void setObjectRotation() {
+	public void setObjectRotation(float[] rotVec) {
+		this.Robj = rotVec[0];
+		this.XRobj = rotVec[1];
+		this.YRobj = rotVec[2];
+		this.ZRobj = rotVec[3];
+		Matrix.rotateM(objRotationMatrix, 0, (float) (rotVec[0]*180/3.1415926),
+				rotVec[1], rotVec[2], rotVec[3]);
+	}
+
+	public void setObjectPosition() {
 		this.objRadians = this.radians;
 		this.Xobj = this.Xaxis;
 		this.Yobj = this.Yaxis;
