@@ -55,6 +55,8 @@ public class CameraManager implements Camera.PreviewCallback, SensorEventListene
 
     private Camera camera;
     private CameraFrame frame;
+    private int pwidth = 0;
+    private int pheight = 0;
 
     private SurfaceTexture renderTexture;
 
@@ -63,12 +65,13 @@ public class CameraManager implements Camera.PreviewCallback, SensorEventListene
     //private RateCounter FPS = new RateCounter();
 
     private Size frameSize;
+    private Size previewFrameSize;
 
     private SensorManager sensorManager = null;
     private float[] rotMat = new float[9];
     private long frametimeoffset = -1;
 
-
+    private boolean started = false;
 
     public void IncOffset()
     {
@@ -85,6 +88,10 @@ public class CameraManager implements Camera.PreviewCallback, SensorEventListene
     public Size GetSize()
     {
         return frameSize;
+    }
+
+    public Size getPreviewSize() {
+        return previewFrameSize;
     }
 
     private int GetBackFacingCamera()
@@ -109,7 +116,8 @@ public class CameraManager implements Camera.PreviewCallback, SensorEventListene
         return camera!=null;
     }
 
-    public void startCamera(Context context) {
+    public void startCamera(Context context, float previewRatio) {
+
         synchronized (cameraLock)
         {
             if(camera!=null) return; // already started
@@ -160,8 +168,8 @@ public class CameraManager implements Camera.PreviewCallback, SensorEventListene
             List<int[]> supportedFPSRanges = camparams.getSupportedPreviewFpsRange();
             int[] fpsRange = supportedFPSRanges.get(supportedFPSRanges.size() - 1);
 
-            int pwidth = 1920;
-            int pheight = 1080;
+//            int pwidth = 1920;
+//            int pheight = 1080;
 			
 			/*Log.d("BT200", Build.MODEL);
 			if(Build.MODEL.equalsIgnoreCase("embt2"))
@@ -173,9 +181,16 @@ public class CameraManager implements Camera.PreviewCallback, SensorEventListene
 
 
             Log.i("Camera", "Best FPS range: " + fpsRange[0] + "-" + fpsRange[1]);
-            Log.i("Camera", "Size: " + pwidth + "x" + pheight);
 
-            //List<Size> csizes = camera.getParameters().getSupportedPreviewSizes();
+            List<Size> csizes = camera.getParameters().getSupportedPreviewSizes();
+            Log.i("Camera", "support preview size: " + csizes);
+            for (Size s:csizes) {
+                if (Math.abs((float)s.width/(float)s.height - previewRatio) < 0.25 && s.width > pwidth ) {
+                    pwidth = s.width;
+                    pheight = s.height;
+                }
+            }
+            Log.i("Camera", "Preview Size: " + pwidth + "x" + pheight);
 
             wbmodes = camparams.getSupportedWhiteBalance();
 
@@ -212,7 +227,7 @@ public class CameraManager implements Camera.PreviewCallback, SensorEventListene
             camera.setParameters(camparams);
 
             //create buffers for camera frames
-            Size previewFrameSize = camera.getParameters().getPreviewSize();
+            previewFrameSize = camera.getParameters().getPreviewSize();
             Log.i("actual size: ", ""+previewFrameSize.width+"x"+previewFrameSize.height);
 
             //int test = camera.getParameters().getPreviewFormat();
@@ -514,5 +529,7 @@ public class CameraManager implements Camera.PreviewCallback, SensorEventListene
         // TODO Auto-generated method stub
 
     }
+
+
 
 }

@@ -40,6 +40,44 @@ float MahonyAHRS::q3 = 0.f;
 //====================================================================================================
 // Functions
 
+//--------------------------------------------------------------------------------------------------
+// cross product
+void crossproduct(float u1, float u2, float u3,
+        float v1, float v2, float v3, float* res)
+{
+    res[0] = u2*v3 - u3*v2;
+    res[1] = u3*v1 - u1*v3;
+    res[2] = u1*v2 - u2*v1;
+}
+
+// compute quaternion between two vector
+void computeQ(float u1, float u2, float u3,
+        float v1, float v2, float v3,float* q)
+{
+    float cross[3];
+    crossproduct(u1, u2, u3, v1, v2, v3, cross);
+    q[1] = cross[0];
+    q[2] = cross[1];
+    q[3] = cross[2];
+    q[0] = sqrt((u1*u1+u2*u2+u3*u3)*(v1*v1+v2*v2+v3*v3))
+            + u1*v1+u2*v2+u3*v3;
+    float len = sqrt(q[0]*q[0] + q[1]*q[1] +q[3]*q[3] + q[2]*q[2]);
+    q[0] = q[0]/len;
+    q[1] = q[1]/len;
+    q[2] = q[2]/len;
+    q[3] = q[3]/len;
+}
+
+// AHRS init
+void MahonyAHRS::init(float ax, float ay, float az, float* q)
+{
+    computeQ(ax, ay, az, 0, 0, 9.8, q);
+    q0 = q[0];
+    q1 = q[1];
+    q2 = q[2];
+    q3 = q[3];
+}
+
 //---------------------------------------------------------------------------------------------------
 // AHRS algorithm reset
 void MahonyAHRS::reset()

@@ -270,4 +270,6 @@ public class ModelActivity extends Activity {
 		return gLView;
 	}
 
+	public CameraManager getCameraManager() { return cameraManager; }
+
 }

@@ -1,6 +1,7 @@
 package org.andresoviedo.app.camera;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -27,12 +28,16 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         mCameraManager.setSurfaceHolder(mHolder);
-        mCameraManager.startCamera(context);
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-
+        float previewRatio = (float)height / (float)width;
+        if (previewRatio < 1)
+            previewRatio = 1.f /previewRatio;
+        Log.d("CameraPreview", "surface Size: " + height + " " + width
+                + " previewRatio: " + previewRatio);
+        mCameraManager.startCamera(context, previewRatio);
     }
 
     @Override

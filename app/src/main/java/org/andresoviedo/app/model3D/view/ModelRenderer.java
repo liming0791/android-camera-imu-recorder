@@ -8,6 +8,7 @@ import java.util.Map;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
+import org.andresoviedo.app.camera.CameraManager;
 import org.andresoviedo.app.model3D.entities.Camera;
 import org.andresoviedo.app.model3D.model.Object3D;
 import org.andresoviedo.app.model3D.model.Object3DBuilder;
@@ -54,6 +55,9 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 	float[] modelViewMatrix = new float[16];
 	// mvpMatrix is an abbreviation for "Model View Projection Matrix"
 	private final float[] mvpMatrix = new float[16];
+
+	private float preW = 0;
+	private float preH = 0;
 
 	/**
 	 * Construct a new renderer for the specified surface view
@@ -118,6 +122,20 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 
 	}
 
+	private void SetProjectionMatrix() {
+		CameraManager cameraManager =
+				main.getModelActivity().getCameraManager();
+		if (cameraManager == null) return;
+		android.hardware.Camera.Size previewSize =
+				cameraManager.getPreviewSize();
+		if (previewSize == null) return;
+		preW = previewSize.height;
+		preH = previewSize.width;
+
+		ProjectionMatrixRUB_BottomLeft(modelProjectionMatrix, (int)preW, (int)preH, 1500, 1500,
+				preW/2, preH/2, 0.1f, 10000);
+	}
+
 	@Override
 	public void onSurfaceChanged(GL10 unused, int width, int height) {
 		this.width = width;
@@ -136,8 +154,9 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 		float ratio = (float) width / height;
 		Log.d(TAG, "projection: [" + -ratio + "," + ratio + ",-1,1]-near/far[1,10]");
 		//Matrix.frustumM(modelProjectionMatrix, 0, -ratio*2, ratio*2, -1*2, 1*2, 1f, 10f);
-		ProjectionMatrixRUB_BottomLeft(modelProjectionMatrix, 1080, 1920, 1500, 1500,
-				496.44f, 981.52f, 0.1f, 10000);
+
+		if (preW == 0 && preH == 0)
+			SetProjectionMatrix();
 
 		// Calculate the projection and view transformation
 		Matrix.multiplyMM(mvpMatrix, 0, modelProjectionMatrix, 0, modelViewMatrix, 0);
@@ -148,6 +167,9 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 
 		// Draw background color
 		GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT | GLES20.GL_DEPTH_BUFFER_BIT);
+
+		if (preW == 0 && preH == 0)
+			SetProjectionMatrix();
 
 		// recalculate mvp matrix according to where we are looking at now
 		if (camera.hasChanged()) {

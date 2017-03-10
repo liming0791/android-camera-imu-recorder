@@ -19,6 +19,7 @@
 class MahonyAHRS
 {
     public:
+        static void init(float ax, float ay, float az, float* q);
         static void reset();
         static void update(float gx, float gy, float gz, 
                 float ax, float ay, float az, 

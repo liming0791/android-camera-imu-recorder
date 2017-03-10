@@ -1,2 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/home/liming/android-3D-model-viewer-master/app/libs/commons-io-2.4.jar"
+        jumboMode="true"
+        revision="25.0.2"
+        sha1="b1b6ea3b7e4aa4f492509a4952029cd8e48019ad">
+        <dex dex="/home/liming/android-3D-model-viewer-master/app/build/intermediates/transforms/dex/debug/folders/1000/2/commons-io-2.4_8cf317e6ad32633edf3efc85a575188f2504bc8f/classes.dex" />
+    </item>
+    <item
+        jar="/home/liming/android-3D-model-viewer-master/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="25.0.2"
+        sha1="2809bd8921c794983d31cc65407857b854b40721">
+        <dex dex="/home/liming/android-3D-model-viewer-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_2eb7063c27f5305e30fa53489cbb5f1e276ab32e/classes.dex" />
+    </item>
+    <item
+        jar="/home/liming/android-3D-model-viewer-master/app/libs/commons-lang3-3.1.jar"
+        jumboMode="true"
+        revision="25.0.2"
+        sha1="905075e6c80f206bbe6cf1e809d2caa69f420c76">
+        <dex dex="/home/liming/android-3D-model-viewer-master/app/build/intermediates/transforms/dex/debug/folders/1000/2/commons-lang3-3.1_b5adc102281ce62e0411f997ca3d6222fdcf35ae/classes.dex" />
+    </item>
+    <item
+        jar="/home/liming/Android/Sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        jumboMode="true"
+        revision="25.0.2"
+        sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67">
+        <dex dex="/home/liming/android-3D-model-viewer-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-v4-19.1.0_5d680af15925027a055ab2a7b3f3fdc1057f2e08/classes.dex" />
+    </item>
+    <item
+        jar="/home/liming/android-3D-model-viewer-master/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="25.0.2"
+        sha1="2f90b7c8474e0b86d1f59ff67e6bb271317b89d2">
+        <dex dex="/home/liming/android-3D-model-viewer-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_b0b9a81d5c350999e55167373286a702889afd1b/classes.dex" />
+    </item>
+
+</items>

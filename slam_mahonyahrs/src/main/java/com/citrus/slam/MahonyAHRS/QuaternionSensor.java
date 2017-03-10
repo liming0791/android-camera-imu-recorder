@@ -46,6 +46,7 @@ public class QuaternionSensor implements SensorEventListener {
         mSensorManager.registerListener(this, mAcce, SensorManager.SENSOR_DELAY_GAME);
         mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_DELAY_GAME);
 
+        nativeReset();
     }
 
     public void registerListener(QuaternionEventListener listener) {

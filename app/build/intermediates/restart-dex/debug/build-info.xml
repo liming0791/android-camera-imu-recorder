@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <instant-run
     abi="arm64-v8a,armeabi-v7a,armeabi"
-    api-level="23"
+    api-level="24"
     density="xxxhdpi"
     format="7"
-    timestamp="29092114378598"
+    timestamp="103329941870918"
     token="1384773693917603486" >
 
     <task
@@ -24,7 +24,7 @@
         location="/home/liming/android-3D-model-viewer-master/app/build/outputs/apk/app-debug.apk"
         type="MAIN" />
 
-    <build timestamp="29092114378598" >
+    <build timestamp="103329941870918" >
         <artifact
             location="/home/liming/android-3D-model-viewer-master/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
