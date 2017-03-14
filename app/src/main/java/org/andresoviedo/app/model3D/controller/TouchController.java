@@ -165,6 +165,9 @@ public class TouchController {
 
 			// test for object rotation
 			mRenderer.getCamera().setObjectPosition();
+
+			// reset vision corecction
+			view.sensorController.resetVision();
 		} else if (pointerCount == 1 && rotationTouch && touchDelay >= 2) {
 			if (Math.abs(x1 - previousX1) > 5 || Math.abs(y1-previousY1) >5 ) {
 				Log.d("TouchController", "RotationTouch");

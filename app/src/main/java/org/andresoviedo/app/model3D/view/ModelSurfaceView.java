@@ -18,7 +18,7 @@ public class ModelSurfaceView extends GLSurfaceView {
 	private ModelActivity parent;
 	private ModelRenderer mRenderer;
 	private TouchController touchHandler;
-	private SensorController sensorController;
+	public SensorController sensorController;
 
 	public ModelSurfaceView(ModelActivity parent) {
 		super(parent);

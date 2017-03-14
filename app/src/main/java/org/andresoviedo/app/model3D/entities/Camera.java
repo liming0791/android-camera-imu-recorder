@@ -456,8 +456,8 @@ public class Camera {
 		float radians = (float) (Math.acos(q0) * 2);
 
 		this.radians = radians;
-		this.Xaxis = q1;
-		this.Yaxis = q2;
+		this.Xaxis = -q2;
+		this.Yaxis = q1;
 		this.Zaxis = q3;
 
 		setChanged(true);

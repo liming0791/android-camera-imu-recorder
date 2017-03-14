@@ -12,6 +12,8 @@ LOCAL_SRC_FILES += \
 $(AHRS_PATH)/MahonyAHRS.cpp         \
 ./mahony_ahrs_main.cpp            
 
+LOCAL_STATIC_LIBRARIES += cvd
+LOCAL_STATIC_LIBRARIES += SBI
 LOCAL_LDLIBS    += -llog -landroid 
 LOCAL_CFLAGS += -g
 
@@ -22,3 +24,9 @@ LOCAL_EXPORT_CPPFLAGS := $(LOCAL_CPPFLAGS) #export cpp flgs
 LOCAL_EXPORT_CXXFLAGS := $(LOCAL_CXXFLAGS) #export cpp flgs
 
 include $(BUILD_SHARED_LIBRARY)
+
+$(call import-add-path, $(LOCAL_PATH)/CVD)
+$(call import-module,cvd)
+$(call import-module,SBI)
+
+$(call import-module,android/cpufeatures)

@@ -30,6 +30,8 @@ class MahonyAHRS
                 float ax, float ay, float az,
                 float sampleFreq,
                 float& _q0, float& _q1, float& _q2, float& _q3);
+        static void getState(float* q);
+        static void setState(float* q);
 
     private:
         static float q0, q1, q2, q3;

@@ -12,7 +12,7 @@
         jar="/home/liming/android-3D-model-viewer-master/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         revision="25.0.2"
-        sha1="2809bd8921c794983d31cc65407857b854b40721">
+        sha1="665fd16877a9524fc06dfda06405b9f6ccc7b9f0">
         <dex dex="/home/liming/android-3D-model-viewer-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_2eb7063c27f5305e30fa53489cbb5f1e276ab32e/classes.dex" />
     </item>
     <item
@@ -33,7 +33,7 @@
         jar="/home/liming/android-3D-model-viewer-master/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         revision="25.0.2"
-        sha1="2f90b7c8474e0b86d1f59ff67e6bb271317b89d2">
+        sha1="2e282e2a8b3e1ec808b8a3da18adec7b6d0b9e31">
         <dex dex="/home/liming/android-3D-model-viewer-master/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_b0b9a81d5c350999e55167373286a702889afd1b/classes.dex" />
     </item>
 

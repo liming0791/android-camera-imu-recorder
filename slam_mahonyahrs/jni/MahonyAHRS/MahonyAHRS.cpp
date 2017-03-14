@@ -88,6 +88,32 @@ void MahonyAHRS::reset()
 }
 
 //---------------------------------------------------------------------------------------------------
+// AHRS algorithm get Q
+void MahonyAHRS::getState(float* s)
+{
+    s[0] = q0;
+    s[1] = q1;
+    s[2] = q2;
+    s[3] = q3;
+    s[4] = integralFBx;
+    s[5] = integralFBy;
+    s[6] = integralFBz;
+}
+
+//---------------------------------------------------------------------------------------------------
+// AHRS algorithm set Q
+void MahonyAHRS::setState(float* s)
+{
+    q0 = s[0];
+    q1 = s[1];
+    q2 = s[2];
+    q3 = s[3];
+    integralFBx = s[4];
+    integralFBy = s[5];
+    integralFBz = s[6];
+}
+
+//---------------------------------------------------------------------------------------------------
 // AHRS algorithm update
 
 void MahonyAHRS::update(float gx, float gy, float gz, 

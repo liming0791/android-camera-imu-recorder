@@ -23,6 +23,8 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.citrus.slam.util.CalibrationHelper;
+
 public class ModelRenderer implements GLSurfaceView.Renderer {
 
 	private final static String TAG = ModelRenderer.class.getName();
@@ -132,8 +134,17 @@ public class ModelRenderer implements GLSurfaceView.Renderer {
 		preW = previewSize.height;
 		preH = previewSize.width;
 
-		ProjectionMatrixRUB_BottomLeft(modelProjectionMatrix, (int)preW, (int)preH, 1500, 1500,
-				preW/2, preH/2, 0.1f, 10000);
+		modelProjectionMatrix = CalibrationHelper.getProjectionMatrix(preH, preW, 0.1f, 10000.f);
+		float tmp[] = new float[4];
+		for (int i = 0; i < 4; i++)
+			tmp[i] = modelProjectionMatrix[i*4];
+		for (int i = 0; i < 4; i++)
+			modelProjectionMatrix[i*4] = modelProjectionMatrix[1+i*4];
+		for (int i = 0; i < 4; i++)
+			modelProjectionMatrix[1+i*4] = -tmp[i];
+
+		//ProjectionMatrixRUB_BottomLeft(modelProjectionMatrix, (int)preW, (int)preH, 1500, 1500,
+		//		preW/2, preH/2, 0.1f, 10000);
 	}
 
 	@Override

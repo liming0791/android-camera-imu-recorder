@@ -33,13 +33,22 @@ public class CameraManager implements Camera.PreviewCallback, SensorEventListene
 
     //inform main application about new frame
     private FrameListener frameListener;
+    private PreviewDataListener previewDataListener;
 
     public interface FrameListener {
         public void onFrameReady();
     }
 
+    public interface PreviewDataListener {
+        public void onPreviewData(byte[] imageArray, int width, int height);
+    }
+
     public void setFrameListener(FrameListener frameListener) {
         this.frameListener = frameListener;
+    }
+
+    public void setPreviewDataListener(PreviewDataListener listener) {
+        this.previewDataListener = listener;
     }
 
     SharedPreferences preferences;
@@ -419,6 +428,9 @@ public class CameraManager implements Camera.PreviewCallback, SensorEventListene
 
         if(frameListener!=null)
             frameListener.onFrameReady();
+
+        if(previewDataListener!=null)
+            previewDataListener.onPreviewData(data, previewFrameSize.width, previewFrameSize.height);
 
     }
 

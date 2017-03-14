@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.util.Log;
 import com.citrus.slam.MahonyAHRS.*;
 
+import org.andresoviedo.app.camera.CameraManager;
 import org.andresoviedo.app.model3D.MainActivity;
 import org.andresoviedo.app.model3D.view.ModelRenderer;
 import org.andresoviedo.app.model3D.view.ModelSurfaceView;
@@ -17,7 +18,7 @@ import org.andresoviedo.app.model3D.view.ModelSurfaceView;
 /**
  * Created by liming on 17-2-6.
  */
-public class SensorController implements QuaternionEventListener {
+public class SensorController implements QuaternionEventListener, CameraManager.PreviewDataListener {
 
     private final ModelSurfaceView view;
     private final ModelRenderer renderer;
@@ -48,5 +49,14 @@ public class SensorController implements QuaternionEventListener {
         if (this.renderer.getCamera()!=null) {
             this.renderer.getCamera().rotateCamera(q[0], q[1], q[2], q[3]);
         }
+    }
+
+    @Override
+    public void onPreviewData(byte[] imageArray, int width, int height) {
+        mQuaternionSensor.visionCorrect(imageArray, width, height);
+    }
+
+    public void resetVision() {
+        mQuaternionSensor.resetVisionCorrection();
     }
 }

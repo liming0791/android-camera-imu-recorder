@@ -68,6 +68,7 @@ public class ModelActivity extends Activity {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 		cameraManager = new CameraManager(preferences);
 
+
 		// Create a CamerafaceView and set it
 		cameraView = new CameraPreview(this, cameraManager);
 		addContentView(cameraView, new ViewGroup.LayoutParams(
@@ -80,6 +81,7 @@ public class ModelActivity extends Activity {
 				ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 		gLView.setZOrderMediaOverlay(true);
 
+		cameraManager.setPreviewDataListener(((ModelSurfaceView)gLView).sensorController);
 
 		// Create our 3D sceneario
 		if (paramFilename == null && paramAssetFilename == null) {
