@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/android-3D-model-viewer-master.iml" filepath="$PROJECT_DIR$/android-3D-model-viewer-master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android-camera-imu-recoder.iml" filepath="$PROJECT_DIR$/android-camera-imu-recoder.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/slam_mahonyahrs/slam_mahonyahrs.iml" filepath="$PROJECT_DIR$/slam_mahonyahrs/slam_mahonyahrs.iml" />
     </modules>

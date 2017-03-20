@@ -7,6 +7,8 @@
 #include <TooN/Cholesky.h>
 #include <TooN/wls.h>
 
+#include <android/log.h>
+
 using namespace CVD;
 using namespace std;
 
@@ -34,11 +36,23 @@ CVD::ImageRef SmallBlurryImage::GetSize()
 // of the above)
 void SmallBlurryImage::MakeFromImg(const CVD::Image<CVD::byte>& image, double dBlur)
 {
+
+  //__android_log_print(ANDROID_LOG_INFO, "JNIMsg",
+  //                "JNI SmallBlurryImage called,"
+  //                "MakeFromImg...");
+
   CVD::Image<CVD::byte> img = image;
 
-  while (img.size().x > 40) {
-    img = halfSample(img);
-  }
+  //__android_log_print(ANDROID_LOG_INFO, "JNIMsg",
+  //                  "JNI SmallBlurryImage called,"
+  //                  "down sample...");
+
+  //while (img.size().x > 40) {
+    img = halfSample(img, 6);
+  //}
+  //__android_log_print(ANDROID_LOG_INFO, "JNIMsg",
+  //                    "JNI SmallBlurryImage called,"
+  //                    "doen");
 
   if(mirSize[0] == -1)
     mirSize = img.size();
@@ -66,6 +80,10 @@ void SmallBlurryImage::MakeFromImg(const CVD::Image<CVD::byte>& image, double dB
   while(ir.next(mirSize));
   
   convolveGaussian(mimTemplate, dBlur);
+
+  //__android_log_print(ANDROID_LOG_INFO, "JNIMsg",
+  //                "JNI SmallBlurryImage called,"
+  //                "done");
 }
 
 // Make the jacobians (actually, no more than a gradient image)

@@ -1,34 +1,34 @@
 [
     {
-        "merged": "/home/liming/android-3D-model-viewer-master/app/build/intermediates/res/merged/debug/layout/activity_model.xml",
-        "source": "/home/liming/android-3D-model-viewer-master/app/src/main/res/layout/activity_model.xml"
+        "merged": "/home/liming/android-camera-imu-recoder/app/build/intermediates/res/merged/debug/layout/activity_demo.xml",
+        "source": "/home/liming/android-camera-imu-recoder/app/src/main/res/layout/activity_demo.xml"
     },
     {
-        "merged": "/home/liming/android-3D-model-viewer-master/app/build/intermediates/res/merged/debug/layout/activity_menu.xml",
-        "source": "/home/liming/android-3D-model-viewer-master/app/src/main/res/layout/activity_menu.xml"
+        "merged": "/home/liming/android-camera-imu-recoder/app/build/intermediates/res/merged/debug/layout/activity_main.xml",
+        "source": "/home/liming/android-camera-imu-recoder/app/src/main/res/layout/activity_main.xml"
     },
     {
-        "merged": "/home/liming/android-3D-model-viewer-master/app/build/intermediates/res/merged/debug/layout/activity_menu_item.xml",
-        "source": "/home/liming/android-3D-model-viewer-master/app/src/main/res/layout/activity_menu_item.xml"
+        "merged": "/home/liming/android-camera-imu-recoder/app/build/intermediates/res/merged/debug/layout/activity_menu_item.xml",
+        "source": "/home/liming/android-camera-imu-recoder/app/src/main/res/layout/activity_menu_item.xml"
     },
     {
-        "merged": "/home/liming/android-3D-model-viewer-master/app/build/intermediates/res/merged/debug/layout/activity_demo.xml",
-        "source": "/home/liming/android-3D-model-viewer-master/app/src/main/res/layout/activity_demo.xml"
+        "merged": "/home/liming/android-camera-imu-recoder/app/build/intermediates/res/merged/debug/layout/activity_demo_item.xml",
+        "source": "/home/liming/android-camera-imu-recoder/app/src/main/res/layout/activity_demo_item.xml"
     },
     {
-        "merged": "/home/liming/android-3D-model-viewer-master/app/build/intermediates/res/merged/debug/layout/activity_text.xml",
-        "source": "/home/liming/android-3D-model-viewer-master/app/src/main/res/layout/activity_text.xml"
+        "merged": "/home/liming/android-camera-imu-recoder/app/build/intermediates/res/merged/debug/layout/activity_text.xml",
+        "source": "/home/liming/android-camera-imu-recoder/app/src/main/res/layout/activity_text.xml"
     },
     {
-        "merged": "/home/liming/android-3D-model-viewer-master/app/build/intermediates/res/merged/debug/layout/dialog_load_model.xml",
-        "source": "/home/liming/android-3D-model-viewer-master/app/src/main/res/layout/dialog_load_model.xml"
+        "merged": "/home/liming/android-camera-imu-recoder/app/build/intermediates/res/merged/debug/layout/activity_model.xml",
+        "source": "/home/liming/android-camera-imu-recoder/app/src/main/res/layout/activity_model.xml"
     },
     {
-        "merged": "/home/liming/android-3D-model-viewer-master/app/build/intermediates/res/merged/debug/layout/activity_main.xml",
-        "source": "/home/liming/android-3D-model-viewer-master/app/src/main/res/layout/activity_main.xml"
+        "merged": "/home/liming/android-camera-imu-recoder/app/build/intermediates/res/merged/debug/layout/activity_menu.xml",
+        "source": "/home/liming/android-camera-imu-recoder/app/src/main/res/layout/activity_menu.xml"
     },
     {
-        "merged": "/home/liming/android-3D-model-viewer-master/app/build/intermediates/res/merged/debug/layout/activity_demo_item.xml",
-        "source": "/home/liming/android-3D-model-viewer-master/app/src/main/res/layout/activity_demo_item.xml"
+        "merged": "/home/liming/android-camera-imu-recoder/app/build/intermediates/res/merged/debug/layout/dialog_load_model.xml",
+        "source": "/home/liming/android-camera-imu-recoder/app/src/main/res/layout/dialog_load_model.xml"
     }
 ]

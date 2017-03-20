@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.andresoviedo.dddmodel.test">
+    package="com.citrus.SLAM.test">
 
     <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="19" />
 
@@ -9,8 +9,8 @@
     </application>
 
     <instrumentation android:name="android.test.InstrumentationTestRunner"
-                     android:targetPackage="org.andresoviedo.dddmodel"
+                     android:targetPackage="com.citrus.SLAM"
                      android:handleProfiling="false"
                      android:functionalTest="false"
-                     android:label="Tests for org.andresoviedo.dddmodel"/>
+                     android:label="Tests for com.citrus.SLAM"/>
 </manifest>

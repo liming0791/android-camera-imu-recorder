@@ -38,8 +38,8 @@ public class QuaternionSensor implements SensorEventListener {
         mAcce = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mGyro = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
-        mSensorManager.registerListener(this, mAcce, SensorManager.SENSOR_DELAY_FASTEST);
-        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_DELAY_FASTEST);
+        mSensorManager.registerListener(this, mAcce, SensorManager.SENSOR_DELAY_GAME);
+        mSensorManager.registerListener(this, mGyro, SensorManager.SENSOR_DELAY_GAME);
 
         nativeReset();
     }

@@ -1,27 +1,18 @@
 package org.andresoviedo.app.model3D.controller;
 
-import android.content.Context;
-import android.content.pm.LabeledIntent;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
+import android.app.Activity;
 import android.hardware.SensorManager;
-import android.provider.Settings;
-import android.util.Log;
+
 import com.citrus.slam.MahonyAHRS.*;
 
 import org.andresoviedo.app.camera.CameraManager;
-import org.andresoviedo.app.model3D.MainActivity;
-import org.andresoviedo.app.model3D.view.ModelRenderer;
-import org.andresoviedo.app.model3D.view.ModelSurfaceView;
 
 /**
  * Created by liming on 17-2-6.
  */
 public class SensorController implements QuaternionEventListener, CameraManager.PreviewDataListener {
 
-    private final ModelSurfaceView view;
-    private final ModelRenderer renderer;
+    private final Activity view;
 
     private QuaternionSensor mQuaternionSensor;
 
@@ -29,12 +20,11 @@ public class SensorController implements QuaternionEventListener, CameraManager.
     private float q[] = new float[4];
 
 
-    public SensorController(ModelSurfaceView view, ModelRenderer renderer){
+    public SensorController(Activity view){
         super();
         this.view = view;
-        this.renderer = renderer;
 
-        SensorManager manager = (SensorManager)(view.getModelActivity().getSystemService(view.getModelActivity().SENSOR_SERVICE));
+        SensorManager manager = (SensorManager)(view.getSystemService(view.SENSOR_SERVICE));
         mQuaternionSensor = new QuaternionSensor(manager);
         mQuaternionSensor.registerListener(this);
     }
@@ -46,9 +36,6 @@ public class SensorController implements QuaternionEventListener, CameraManager.
     @Override
     public void onQuaternionEvent(float[] q) {
         //Log.i("SensorController", "q: " + q[0] + " " + q[1] + " " + q[2] + " " + q[3]);
-        if (this.renderer.getCamera()!=null) {
-            this.renderer.getCamera().rotateCamera(q[0], q[1], q[2], q[3]);
-        }
     }
 
     @Override

@@ -4,29 +4,29 @@
     api-level="24"
     density="xxxhdpi"
     format="7"
-    timestamp="25522256960215"
-    token="1384773693917603486" >
+    timestamp="21972116437314"
+    token="-5652957163305919055" >
 
     <task
         name="javac"
-        duration="120" />
+        duration="217" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="42" />
+        duration="149" />
     <task
         name="verifier"
-        duration="5" />
+        duration="6" />
 
     <artifact
-        location="/home/liming/android-3D-model-viewer-master/app/build/outputs/apk/app-debug.apk"
+        location="/home/liming/android-camera-imu-recoder/app/build/outputs/apk/app-debug.apk"
         type="MAIN" />
 
-    <build timestamp="25522256960215" >
+    <build timestamp="21972116437314" >
         <artifact
-            location="/home/liming/android-3D-model-viewer-master/app/build/outputs/apk/app-debug.apk"
+            location="/home/liming/android-camera-imu-recoder/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
     </build>
 

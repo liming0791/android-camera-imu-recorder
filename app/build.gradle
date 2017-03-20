@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "org.andresoviedo.dddmodel"
+        applicationId "com.citrus.SLAM"
         minSdkVersion 15
         targetSdkVersion 19
     }

@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "/home/liming/android-3D-model-viewer-master/app/build/intermediates/res/merged/debug/values-v14/values-v14.xml",
+        "outputFile": "/home/liming/android-camera-imu-recoder/app/build/intermediates/res/merged/debug/values-v14/values-v14.xml",
         "map": [
             {
                 "to": {
@@ -12,7 +12,7 @@
                     "endOffset": 201
                 },
                 "from": {
-                    "file": "/home/liming/android-3D-model-viewer-master/app/src/main/res/values-v14/styles.xml",
+                    "file": "/home/liming/android-camera-imu-recoder/app/src/main/res/values-v14/styles.xml",
                     "position": {
                         "startLine": 7,
                         "startColumn": 4,
